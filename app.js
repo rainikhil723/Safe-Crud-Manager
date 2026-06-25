@@ -1,3 +1,11 @@
+require('dotenv').config();
+const mongoose = require('mongoose');
+
+// Connect to your Cloud Database
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('Matrix Database Connected'))
+  .catch(err => console.log(err));
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -8,8 +16,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authModel = require('./models/auth');
 
-const APP_AUTH_SECRET = 'your_secret_key';
-const USER_ACCESS_SECRET = 'user_profile_access_secret';
+const APP_AUTH_SECRET = process.env.APP_AUTH_SECRET;
+const USER_ACCESS_SECRET = process.env.USER_ACCESS_SECRET;
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -238,4 +246,7 @@ app.post('/create', isLoggedIn, async (req,res) => {
    res.redirect('/read');
 });
 
-app.listen(4000);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+    console.log(`System active on port ${PORT}`);
+});
