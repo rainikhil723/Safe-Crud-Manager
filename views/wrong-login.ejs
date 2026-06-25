@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRITICAL ERROR | INTRUDER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'glitch': 'glitch 1s linear infinite',
+                        'siren': 'siren 2s ease-in-out infinite',
+                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+                    },
+                    keyframes: {
+                        glitch: {
+                            '2%, 64%': { transform: 'translate(2px, 0) skew(0deg)' },
+                            '4%, 60%': { transform: 'translate(-2px, 0) skew(0deg)' },
+                            '62%': { transform: 'translate(0, 0) skew(5deg)' },
+                        },
+                        siren: {
+                            '0%, 100%': { backgroundColor: 'rgba(20, 0, 0, 1)' },
+                            '50%': { backgroundColor: 'rgba(80, 0, 0, 1)' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-8px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(8px, 0, 0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+        }
+        
+        .scanlines {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
+            background-size: 100% 4px;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+        
+        .cyber-button {
+            position: relative;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+            transition: all 0.2s ease-out;
+        }
+        
+        .cyber-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #ff003c;
+            z-index: -1;
+            transition: transform 0.3s;
+            transform: scaleX(0);
+            transform-origin: right;
+        }
+        
+        .cyber-button:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    </style>
+</head>
+<body class="text-white h-screen w-screen flex items-center justify-center relative animate-siren">
+    
+    <div class="scanlines"></div>
+
+    <div class="relative z-10 bg-gray-950/90 backdrop-blur-xl border-2 border-red-600 p-8 md:p-12 max-w-3xl w-full mx-4 shadow-[0_0_70px_rgba(220,38,38,0.8)] animate-shake">
+        
+        <div class="absolute -top-4 -left-4 w-12 h-12 border-t-4 border-l-4 border-red-500"></div>
+        <div class="absolute -top-4 -right-4 w-12 h-12 border-t-4 border-r-4 border-red-500"></div>
+        <div class="absolute -bottom-4 -left-4 w-12 h-12 border-b-4 border-l-4 border-red-500"></div>
+        <div class="absolute -bottom-4 -right-4 w-12 h-12 border-b-4 border-r-4 border-red-500"></div>
+
+        <div class="flex justify-center mb-8 relative">
+            <div class="absolute inset-0 bg-red-500 blur-3xl opacity-30 rounded-full animate-pulse"></div>
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZpdThmZ3A2azcwbHl6bTR5MmgwNGFqNW52NGZ6eG5zeHYxNWQxZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Suspicious Stare" class="w-56 h-56 object-cover rounded-full border-4 border-red-600 shadow-[0_0_40px_rgba(220,38,38,1)] z-10 relative">
+        </div>
+
+        <h1 class="text-6xl md:text-8xl font-black text-center text-red-500 mb-2 tracking-widest animate-glitch uppercase drop-shadow-[0_0_15px_rgba(220,38,38,1)]">
+            BUSTED
+        </h1>
+        
+        <div class="bg-red-950/60 border border-red-800 p-6 mb-10 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-red-500/50"></div>
+            <p class="text-2xl md:text-3xl text-center text-red-100 leading-relaxed font-bold">
+                AUTHENTICATION FAILED. <br>
+                <span class="text-yellow-400 block mt-2 text-xl">Are you a master thief? A corporate spy? Or did you just type with your forehead again?</span>
+            </p>
+            <p class="text-center text-lg text-red-400 mt-6 animate-pulse font-bold tracking-widest">
+                WARNING: CYBER POLICE HAVE BEEN DISPATCHED TO YOUR LOCATION.
+            </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <button id="runaway-btn" class="cyber-button bg-black border-2 border-red-600 text-red-500 font-bold py-5 px-10 uppercase tracking-widest hover:text-white transition-colors duration-300 text-lg w-full sm:w-auto z-50" onclick="window.location='/hacker-busted'">
+                I Am A Hacker!
+            </button>
+            <a href="/login" class="cyber-button bg-transparent border-2 border-green-500 text-green-500 font-bold py-5 px-10 uppercase tracking-widest hover:text-black hover:bg-green-500 transition-all duration-300 text-center shadow-[0_0_20px_rgba(34,197,94,0.3)] text-lg w-full sm:w-auto">
+                Mercy! (Try Again)
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const runawayBtn = document.getElementById('runaway-btn');
+        let dodgeCount = 0;
+
+        runawayBtn.addEventListener('mouseover', () => {
+            if (dodgeCount < 6) {
+                const x = (Math.random() * 300) - 150;
+                const y = (Math.random() * 200) - 100;
+                runawayBtn.style.transform = `translate(${x}px, ${y}px)`;
+                dodgeCount++;
+            } else {
+                runawayBtn.innerText = "FINE, CLICK ME.";
+                runawayBtn.classList.replace('text-red-500', 'text-white');
+                runawayBtn.style.transform = 'translate(0, 0)';
+            }
+        });
+    </script>
+</body>
+</html>
