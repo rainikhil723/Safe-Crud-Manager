@@ -3,133 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRITICAL ERROR | INTRUDER</title>
+    <title>CRITICAL ERROR | SKILL ISSUE</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Hazard stripes for background animation */
+        .hazard-bg {
+            background: repeating-linear-gradient(
+                -45deg,
+                #000000,
+                #000000 40px,
+                #1a0000 40px,
+                #1a0000 80px
+            );
+            animation: slideHazard 20s linear infinite;
+        }
+
+        @keyframes slideHazard {
+            0% { background-position: 0 0; }
+            100% { background-position: 100vw 100vh; }
+        }
+
+        /* Brutal Shake */
+        @keyframes brutalShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-4px, 4px) rotate(-1deg); }
+            50% { transform: translate(4px, -4px) rotate(1deg); }
+            75% { transform: translate(-4px, -4px) rotate(-1deg); }
+        }
+        .animate-brutal-shake {
+            animation: brutalShake 0.2s infinite;
+        }
+
+        /* Hollow text */
+        .text-stroke-red {
+            -webkit-text-stroke: 3px #ef4444;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="hazard-bg h-screen w-screen flex items-center justify-center relative selection:bg-red-600 selection:text-white">
+    
+    <!-- Top & Bottom Marquees -->
+    <div class="fixed top-0 left-0 w-full overflow-hidden bg-red-600 text-black border-b-8 border-black py-2 z-50">
+        <div class="whitespace-nowrap animate-[marquee_10s_linear_infinite] font-black tracking-widest uppercase text-lg flex gap-8">
+            <span>⚠️ INTRUDER DETECTED</span>
+            <span>⚠️ DEPLOYING TACTICAL ROOMBAS</span>
+            <span>⚠️ INTRUDER DETECTED</span>
+            <span>⚠️ CALLING YOUR MOM</span>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 w-full overflow-hidden bg-yellow-400 text-black border-t-8 border-black py-2 z-50">
+        <div class="whitespace-nowrap animate-[marquee_12s_linear_infinite_reverse] font-black tracking-widest uppercase text-lg flex gap-8">
+            <span>ERROR 401: FAT FINGERS</span>
+            <span>DIAGNOSIS: SKILL ISSUE</span>
+            <span>ERROR 401: FAT FINGERS</span>
+            <span>DIAGNOSIS: SKILL ISSUE</span>
+        </div>
+    </div>
+
+    <!-- Main Brutalist Card -->
+    <div class="relative z-10 bg-yellow-400 border-8 border-black p-8 md:p-12 max-w-4xl w-full mx-4 shadow-[20px_20px_0_0_#ef4444] transform rotate-1 hover:rotate-0 transition-transform duration-300 flex flex-col md:flex-row gap-8 items-center">
+        
+        <!-- Left Side: Threat Visuals -->
+        <div class="flex flex-col items-center gap-6 shrink-0 border-4 border-black p-4 bg-white shadow-[8px_8px_0_0_#000] relative">
+            <div class="absolute -top-4 -right-4 bg-red-600 text-white font-black px-3 py-1 border-4 border-black transform rotate-12 animate-pulse">
+                LIVE
+            </div>
+            
+            <p class="font-black uppercase tracking-widest text-xs border-b-4 border-black w-full text-center pb-2">Webcam Capture</p>
+            
+            <!-- Replace with GIF or keep the emoji joke -->
+            <div class="text-9xl bg-gray-100 border-4 border-dashed border-black w-48 h-48 flex items-center justify-center animate-brutal-shake">
+                🤡
+            </div>
+            
+            <div class="w-full bg-black h-6 border-2 border-black overflow-hidden relative">
+                <div id="progress-bar" class="h-full bg-red-600 w-0"></div>
+                <p class="absolute inset-0 flex items-center justify-center text-[10px] text-white font-black tracking-widest z-10 mix-blend-difference">
+                    UPLOADING SEARCH HISTORY...
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side: The Roast -->
+        <div class="flex-1 w-full flex flex-col">
+            <h1 class="text-7xl md:text-8xl font-black text-black mb-2 tracking-tighter uppercase leading-none">
+                <span class="text-stroke-red block -mb-4">ACCESS</span>
+                DENIED
+            </h1>
+            
+            <div class="bg-black text-green-400 p-6 border-4 border-black shadow-[8px_8px_0_0_#ef4444] mb-8 mt-4 font-mono text-sm leading-relaxed relative">
+                <!-- Decorative screws -->
+                <div class="absolute top-2 left-2 w-2 h-2 bg-gray-500 rounded-full"></div>
+                <div class="absolute top-2 right-2 w-2 h-2 bg-gray-500 rounded-full"></div>
+                
+                <p>> KEYSTROKE ANALYSIS: <span class="text-red-500">ABYSMAL</span></p>
+                <p>> CAPS LOCK STATUS: <span class="text-yellow-400">PROBABLY ON</span></p>
+                <p>> EXCUSE: <span class="text-white">"I FORGOT MY PASSWORD"</span></p>
+                <p class="mt-4 text-lg font-black text-red-500 animate-pulse">> VERDICT: MAJOR SKILL ISSUE.</p>
+            </div>
+
+            <p class="text-xl font-bold text-black mb-8 border-l-8 border-black pl-4">
+                Either you are a highly-trained corporate spy attempting a brute-force breach... or you just typed with your forehead again.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 relative h-20">
+                <!-- Mercy Button -->
+                <a href="/login" class="absolute left-0 bg-white border-4 border-black text-black font-black py-4 px-8 uppercase tracking-widest hover:bg-green-400 hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0_0_#000] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all duration-200 z-10 w-full sm:w-auto text-center">
+                    I'm Sorry (Retry)
+                </a>
+
+                <!-- The Runaway Button -->
+                <button id="runaway-btn" class="absolute left-0 sm:left-64 bg-red-600 border-4 border-black text-white font-black py-4 px-8 uppercase tracking-widest shadow-[8px_8px_0_0_#000] transition-all duration-100 z-50 w-full sm:w-auto text-center" onclick="window.location='/hacker-busted'">
+                    I AM A HACKER!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tailwind Config for the Marquee -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    animation: {
-                        'glitch': 'glitch 1s linear infinite',
-                        'siren': 'siren 2s ease-in-out infinite',
-                        'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
-                    },
                     keyframes: {
-                        glitch: {
-                            '2%, 64%': { transform: 'translate(2px, 0) skew(0deg)' },
-                            '4%, 60%': { transform: 'translate(-2px, 0) skew(0deg)' },
-                            '62%': { transform: 'translate(0, 0) skew(5deg)' },
-                        },
-                        siren: {
-                            '0%, 100%': { backgroundColor: 'rgba(20, 0, 0, 1)' },
-                            '50%': { backgroundColor: 'rgba(80, 0, 0, 1)' },
-                        },
-                        shake: {
-                            '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
-                            '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
-                            '30%, 50%, 70%': { transform: 'translate3d(-8px, 0, 0)' },
-                            '40%, 60%': { transform: 'translate3d(8px, 0, 0)' }
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
                         }
                     }
                 }
             }
         }
     </script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
-        body {
-            font-family: 'Share Tech Mono', monospace;
-            overflow: hidden;
-        }
-        
-        .scanlines {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3));
-            background-size: 100% 4px;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none;
-            z-index: 50;
-        }
-        
-        .cyber-button {
-            position: relative;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-            transition: all 0.2s ease-out;
-        }
-        
-        .cyber-button::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #ff003c;
-            z-index: -1;
-            transition: transform 0.3s;
-            transform: scaleX(0);
-            transform-origin: right;
-        }
-        
-        .cyber-button:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-    </style>
-</head>
-<body class="text-white h-screen w-screen flex items-center justify-center relative animate-siren">
-    
-    <div class="scanlines"></div>
-
-    <div class="relative z-10 bg-gray-950/90 backdrop-blur-xl border-2 border-red-600 p-8 md:p-12 max-w-3xl w-full mx-4 shadow-[0_0_70px_rgba(220,38,38,0.8)] animate-shake">
-        
-        <div class="absolute -top-4 -left-4 w-12 h-12 border-t-4 border-l-4 border-red-500"></div>
-        <div class="absolute -top-4 -right-4 w-12 h-12 border-t-4 border-r-4 border-red-500"></div>
-        <div class="absolute -bottom-4 -left-4 w-12 h-12 border-b-4 border-l-4 border-red-500"></div>
-        <div class="absolute -bottom-4 -right-4 w-12 h-12 border-b-4 border-r-4 border-red-500"></div>
-
-        <div class="flex justify-center mb-8 relative">
-            <div class="absolute inset-0 bg-red-500 blur-3xl opacity-30 rounded-full animate-pulse"></div>
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3ZpdThmZ3A2azcwbHl6bTR5MmgwNGFqNW52NGZ6eG5zeHYxNWQxZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/VbnUQpnihPSIgIXuZv/giphy.gif" alt="Suspicious Stare" class="w-56 h-56 object-cover rounded-full border-4 border-red-600 shadow-[0_0_40px_rgba(220,38,38,1)] z-10 relative">
-        </div>
-
-        <h1 class="text-6xl md:text-8xl font-black text-center text-red-500 mb-2 tracking-widest animate-glitch uppercase drop-shadow-[0_0_15px_rgba(220,38,38,1)]">
-            BUSTED
-        </h1>
-        
-        <div class="bg-red-950/60 border border-red-800 p-6 mb-10 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-red-500/50"></div>
-            <p class="text-2xl md:text-3xl text-center text-red-100 leading-relaxed font-bold">
-                AUTHENTICATION FAILED. <br>
-                <span class="text-yellow-400 block mt-2 text-xl">Are you a master thief? A corporate spy? Or did you just type with your forehead again?</span>
-            </p>
-            <p class="text-center text-lg text-red-400 mt-6 animate-pulse font-bold tracking-widest">
-                WARNING: CYBER POLICE HAVE BEEN DISPATCHED TO YOUR LOCATION.
-            </p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button id="runaway-btn" class="cyber-button bg-black border-2 border-red-600 text-red-500 font-bold py-5 px-10 uppercase tracking-widest hover:text-white transition-colors duration-300 text-lg w-full sm:w-auto z-50" onclick="window.location='/hacker-busted'">
-                I Am A Hacker!
-            </button>
-            <a href="/login" class="cyber-button bg-transparent border-2 border-green-500 text-green-500 font-bold py-5 px-10 uppercase tracking-widest hover:text-black hover:bg-green-500 transition-all duration-300 text-center shadow-[0_0_20px_rgba(34,197,94,0.3)] text-lg w-full sm:w-auto">
-                Mercy! (Try Again)
-            </a>
-        </div>
-    </div>
 
     <script>
+        // Fake Progress Bar Logic
+        const progressBar = document.getElementById('progress-bar');
+        let width = 0;
+        setInterval(() => {
+            if (width >= 100) width = 0;
+            width += Math.random() * 5;
+            progressBar.style.width = width + '%';
+        }, 300);
+
+        // Evil Runaway Button Logic
         const runawayBtn = document.getElementById('runaway-btn');
+        
+        const taunts = [
+            "TOO SLOW!",
+            "NICE TRY LMAO",
+            "WEAK MOUSE SKILLS",
+            "MISSED ME",
+            "UR GRANDMA IS FASTER",
+            "EMBARRASSING.",
+            "IS YOUR MOUSE BROKEN?",
+            "JUST GIVE UP",
+            "PATHETIC."
+        ];
+
         let dodgeCount = 0;
 
         runawayBtn.addEventListener('mouseover', () => {
-            if (dodgeCount < 6) {
-                const x = (Math.random() * 300) - 150;
-                const y = (Math.random() * 200) - 100;
-                runawayBtn.style.transform = `translate(${x}px, ${y}px)`;
+            if (dodgeCount < taunts.length) {
+                // Change text to an insult
+                runawayBtn.innerText = taunts[dodgeCount];
+                
+                // Calculate crazy random positions within the viewport, accounting for button size
+                const maxX = window.innerWidth - runawayBtn.offsetWidth - 50;
+                const maxY = window.innerHeight - runawayBtn.offsetHeight - 50;
+                
+                // Make it absolute relative to the body to fly everywhere
+                runawayBtn.style.position = 'fixed';
+                runawayBtn.style.left = Math.random() * maxX + 'px';
+                runawayBtn.style.top = Math.random() * maxY + 'px';
+                
+                // Randomly rotate and scale it to be extra annoying
+                const rot = (Math.random() * 40) - 20;
+                const scale = 1 - (dodgeCount * 0.05); // slowly shrinks
+                runawayBtn.style.transform = `rotate(${rot}deg) scale(${scale})`;
+                
+                // Randomize background color for maximum sensory overload
+                const colors = ['#ef4444', '#3b82f6', '#eab308', '#a855f7'];
+                runawayBtn.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                runawayBtn.style.color = '#000';
+
                 dodgeCount++;
             } else {
-                runawayBtn.innerText = "FINE, CLICK ME.";
-                runawayBtn.classList.replace('text-red-500', 'text-white');
-                runawayBtn.style.transform = 'translate(0, 0)';
+                // The final state if they somehow manage to corner it 10 times
+                runawayBtn.innerText = "FINE. ARREST ME.";
+                runawayBtn.style.transform = 'rotate(0deg) scale(1)';
+                runawayBtn.style.backgroundColor = '#000';
+                runawayBtn.style.color = '#fff';
             }
         });
     </script>

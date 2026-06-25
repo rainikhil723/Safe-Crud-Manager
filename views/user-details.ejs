@@ -3,47 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>User Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
+        
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+        }
+        
+        /* Custom Neobrutalist Background Pattern */
+        .dotted-bg {
+            background-image: radial-gradient(#000 2px, transparent 2px);
+            background-size: 24px 24px;
+            background-color: #f8f8f8;
+        }
+
+        /* Hollow text effect */
+        .text-stroke {
+            -webkit-text-stroke: 3px black;
+            color: transparent;
+        }
+    </style>
+    <title>System Details | UNLEASHED</title>
 </head>
-<body>
-    <div class="w-full min-h-screen bg-zinc-900 p-10 text-white">
-        <div class="flex justify-between items-center mb-8">
-            <a class="text-blue-500" href="/read">Back to Users</a>
-            <a class="text-red-500 hover:text-red-400" href="/logout">Logout</a>
+<body class="dotted-bg text-black min-h-screen p-8 md:p-16 pt-24 antialiased selection:bg-yellow-400 selection:text-black flex flex-col items-center overflow-x-hidden">
+
+    <!-- Decorative Top Marquee Banner -->
+    <div class="fixed top-0 left-0 w-full overflow-hidden bg-black text-pink-500 py-2 z-50 border-b-4 border-black">
+        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] font-bold tracking-[0.2em] uppercase text-xs flex gap-4">
+            <span>/// IDENTITY MATRIX /// USER DETAIL LOG /// SECURE PROTOCOL ///</span>
+            <span>/// IDENTITY MATRIX /// USER DETAIL LOG /// SECURE PROTOCOL ///</span>
+            <span>/// IDENTITY MATRIX /// USER DETAIL LOG /// SECURE PROTOCOL ///</span>
         </div>
-
-        <h1 class="text-3xl mb-6">User Details</h1>
-
-        <div class="bg-zinc-800 p-6 rounded-lg mb-8">
-            <img class="w-48 h-48 object-cover rounded-lg mb-4" src="<%= user.image %>" alt="User image">
-            <h2 class="text-2xl"><%= user.name %></h2>
-            <p class="text-zinc-400"><%= user.email %></p>
-        </div>
-
-        <div class="bg-zinc-800 p-6 rounded-lg mb-8">
-            <h3 class="text-xl mb-4">Update User (Edit)</h3>
-            <form action="/user/<%= user._id %>/update" method="POST" class="space-y-3">
-                <input type="hidden" name="userAccessToken" value="<%= userAccessToken %>">
-                <input class="w-full px-4 py-2 bg-zinc-700 border border-zinc-600 rounded-lg" type="text" name="name" value="<%= user.name %>" required>
-                <input class="w-full px-4 py-2 bg-zinc-700 border border-zinc-600 rounded-lg" type="email" name="email" value="<%= user.email %>" required>
-                <input class="w-full px-4 py-2 bg-zinc-700 border border-zinc-600 rounded-lg" type="text" name="image" value="<%= user.image %>" required>
-                <input class="w-full px-4 py-2 bg-zinc-700 border border-zinc-600 rounded-lg" type="password" name="password" placeholder="Set new password (optional)">
-                <button class="px-4 py-2 bg-yellow-500 text-black rounded-lg" type="submit">Update User</button>
-            </form>
-        </div>
-
-        <div class="bg-zinc-800 p-6 rounded-lg mb-8">
-            <h3 class="text-xl mb-4">Upload File</h3>
-            <form action="/user/<%= user._id %>/upload" method="POST" enctype="multipart/form-data" class="space-y-3">
-                <input type="hidden" name="userAccessToken" value="<%= userAccessToken %>">
-                <input class="w-full px-4 py-2 bg-zinc-700 border border-zinc-600 rounded-lg" type="file" name="userFile" required>
-                <button class="px-4 py-2 bg-green-600 rounded-lg" type="submit">Upload File</button>
-            </form>
-        </div>
-
-        <a class="inline-block px-4 py-2 bg-blue-600 rounded-lg" href="/user/<%= user._id %>/files?userAccessToken=<%= encodeURIComponent(userAccessToken) %>">Show All Files</a>
     </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-7xl mx-auto relative z-10">
+        
+        <!-- Navigation -->
+        <nav class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-8 border-black pb-8 mb-16 relative group">
+            <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none relative z-10">
+                <span class="block text-stroke group-hover:text-black transition-colors duration-500">System</span>
+                <span class="bg-blue-600 text-white px-4 py-1 inline-block transform -rotate-2 group-hover:rotate-0 transition-transform duration-300 shadow-[8px_8px_0_0_#000]">Details</span>
+            </h1>
+            
+            <div class="flex gap-6 font-bold uppercase tracking-widest text-sm mt-8 md:mt-0 bg-yellow-300 p-4 border-4 border-black shadow-[6px_6px_0_0_#000]">
+                <a href="/read" class="hover:text-blue-600 hover:-translate-y-1 transition-transform inline-block">Directory</a>
+                <a href="/logout" class="text-red-600 hover:text-black hover:-translate-y-1 transition-transform inline-block">Logout</a>
+            </div>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+            
+            <!-- LEFT COLUMN: Identity & Updates -->
+            <div class="space-y-12">
+                
+                <!-- Profile Card -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-pink-500 translate-x-4 translate-y-4 border-4 border-black hidden md:block transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <div class="relative border-4 border-black shadow-[12px_12px_0_0_#000] bg-white p-8 transition-all hover:-translate-y-2 hover:-translate-x-2 z-10">
+                        
+                        <!-- Decorative Sticker -->
+                        <div class="absolute -top-6 -left-6 bg-yellow-300 border-4 border-black px-4 py-1 font-black uppercase text-xl shadow-[4px_4px_0_0_#000] transform -rotate-12 z-20">
+                            ID: <%= user._id.toString().slice(-4) %>
+                        </div>
+
+                        <div class="flex flex-col xl:flex-row items-center xl:items-start justify-between gap-8">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8 text-center sm:text-left">
+                                <img class="w-36 h-36 object-cover border-4 border-black shadow-[8px_8px_0_0_#000] contrast-125 transform rotate-3 hover:rotate-0 transition-transform" src="<%= user.image %>" alt="User image">
+                                <div class="mt-2">
+                                    <h2 class="text-4xl sm:text-5xl font-black uppercase tracking-tight leading-none mb-2"><%= user.name %></h2>
+                                    <p class="font-bold text-xl bg-black text-yellow-300 inline-block px-3 py-1 border-2 border-black transform -rotate-1"><%= user.email %></p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-row xl:flex-col gap-4 w-full xl:w-auto shrink-0 justify-center">
+                                <a href="/edit/<%= user._id %>" class="bg-yellow-400 text-black border-4 border-black font-black uppercase text-sm px-6 py-4 hover:bg-white transition-all text-center shadow-[4px_4px_0_0_#000] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#000] active:translate-y-1 active:shadow-none">Edit</a>
+                                <form action="/delete/<%= user._id %>" method="POST" onsubmit="return confirm('WARNING: UNRECOVERABLE DELETION. PROCEED?');" class="flex-1 xl:flex-none">
+                                    <button type="submit" class="w-full bg-red-600 text-white border-4 border-black font-black uppercase text-sm px-6 py-4 hover:bg-black transition-all cursor-pointer text-center shadow-[4px_4px_0_0_#000] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_#000] active:translate-y-1 active:shadow-none flex justify-center items-center gap-2">
+                                        <span>Purge</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Update Protocol Form -->
+                <div class="relative group mt-16">
+                    <div class="absolute inset-0 bg-blue-500 translate-x-4 translate-y-4 border-4 border-black hidden md:block transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <div class="relative border-4 border-black shadow-[12px_12px_0_0_#000] p-8 md:p-12 bg-white transition-all hover:-translate-y-2 hover:-translate-x-2 z-10">
+                        <h3 class="text-4xl font-black uppercase tracking-tighter mb-10 inline-block border-l-8 border-blue-600 pl-4">Update Protocol</h3>
+                        <form action="/user/<%= user._id %>/update" method="POST" class="space-y-8">
+                            <input type="hidden" name="userAccessToken" value="<%= userAccessToken %>">
+                            
+                            <div class="group/input relative">
+                                <label class="absolute -top-3 left-3 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within/input:bg-pink-500 group-focus-within/input:text-white transition-colors">Name</label>
+                                <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[4px_4px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase" type="text" name="name" value="<%= user.name %>" required>
+                            </div>
+
+                            <div class="group/input relative">
+                                <label class="absolute -top-3 left-3 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within/input:bg-pink-500 group-focus-within/input:text-white transition-colors">Email</label>
+                                <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[4px_4px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase" type="email" name="email" value="<%= user.email %>" required>
+                            </div>
+
+                            <div class="group/input relative">
+                                <label class="absolute -top-3 left-3 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within/input:bg-pink-500 group-focus-within/input:text-white transition-colors">Image URL</label>
+                                <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[4px_4px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase" type="text" name="image" value="<%= user.image %>" required>
+                            </div>
+
+                            <div class="group/input relative">
+                                <label class="absolute -top-3 left-3 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within/input:bg-red-500 group-focus-within/input:text-white transition-colors">Security Override</label>
+                                <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-red-50 focus:border-red-500 focus:shadow-[4px_4px_0_0_#EF4444] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase placeholder-gray-400" type="password" name="password" placeholder="NEW PASSWORD (OPTIONAL)">
+                            </div>
+
+                            <button class="w-full bg-blue-600 text-white font-black uppercase tracking-widest p-5 border-4 border-black hover:bg-black transition-all cursor-pointer mt-8 shadow-[8px_8px_0_0_#000] hover:shadow-[12px_12px_0_0_#000] hover:-translate-y-2 hover:-translate-x-2 active:translate-y-2 active:translate-x-2 active:shadow-none flex justify-between items-center group/btn" type="submit">
+                                <span>Sync Data</span>
+                                <svg class="w-6 h-6 transform group-hover/btn:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="4" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Storage & Files -->
+            <div class="space-y-12">
+                
+                <!-- File Ingestion -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-yellow-400 translate-x-4 translate-y-4 border-4 border-black hidden md:block transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <div class="relative border-4 border-black shadow-[12px_12px_0_0_#000] p-8 md:p-12 bg-white transition-all hover:-translate-y-2 hover:-translate-x-2 z-10">
+                        <h3 class="text-4xl font-black uppercase tracking-tighter mb-8 inline-block border-b-8 border-yellow-400 pb-2">File Ingestion</h3>
+                        <form action="/user/<%= user._id %>/upload?userAccessToken=<%= encodeURIComponent(userAccessToken) %>" method="POST" enctype="multipart/form-data" class="space-y-6 flex flex-col">
+                            
+                            <!-- Custom brutalist file input wrapper -->
+                            <div class="relative border-4 border-black bg-gray-50 p-4 hover:bg-yellow-50 transition-colors group/file">
+                                <input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20" type="file" name="userFile" required>
+                                <div class="flex items-center gap-4 border-2 border-dashed border-black p-6 bg-white pointer-events-none group-hover/file:border-blue-600">
+                                    <div class="bg-black text-white p-3 font-black uppercase">SELECT</div>
+                                    <span class="font-bold uppercase text-gray-500 tracking-widest group-hover/file:text-black transition-colors">Target payload...</span>
+                                </div>
+                            </div>
+
+                            <button class="bg-black text-white font-black uppercase tracking-widest p-5 border-4 border-black hover:bg-yellow-400 hover:text-black transition-all cursor-pointer shadow-[8px_8px_0_0_#000] hover:shadow-[12px_12px_0_0_#000] hover:-translate-y-2 hover:-translate-x-2 active:translate-y-2 active:translate-x-2 active:shadow-none" type="submit">Execute Upload</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Storage Matrix -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-green-400 translate-x-4 translate-y-4 border-4 border-black hidden md:block transition-transform duration-300 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <div class="relative border-4 border-black shadow-[12px_12px_0_0_#000] p-8 md:p-12 bg-white transition-all hover:-translate-y-2 hover:-translate-x-2 z-10 text-center overflow-hidden">
+                        
+                        <!-- Abstract BG Decor -->
+                        <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 font-black rotate-12 pointer-events-none text-black">
+                            SYS
+                        </div>
+
+                        <div class="text-6xl mb-6 transform hover:scale-110 transition-transform inline-block">🗄️</div>
+                        <h3 class="text-4xl font-black uppercase tracking-tighter mb-4 text-stroke relative z-10">Storage Matrix</h3>
+                        <p class="font-bold mb-10 border-t-4 border-black pt-4 inline-block relative z-10">Access the secure file repository for this identity.</p>
+                        
+                        <a class="block bg-black text-green-400 font-black uppercase tracking-widest p-6 border-4 border-black hover:bg-green-400 hover:text-black transition-all cursor-pointer shadow-[8px_8px_0_0_#000] hover:-translate-y-2 hover:-translate-x-2 hover:shadow-[12px_12px_0_0_#000] active:translate-y-2 active:translate-x-2 active:shadow-none relative z-10" href="/user/<%= user._id %>/files?userAccessToken=<%= encodeURIComponent(userAccessToken) %>">
+                            Initialize File System
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Tailwind Config for the Marquee Animation -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

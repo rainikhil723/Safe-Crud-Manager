@@ -3,24 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>ProjectN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Upgraded to Space Grotesk for a more aggressive, tech-forward look */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
+        
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+        }
+        
+        /* Custom Neobrutalist Background Pattern */
+        .dotted-bg {
+            background-image: radial-gradient(#000 2px, transparent 2px);
+            background-size: 24px 24px;
+            background-color: #f8f8f8;
+        }
+
+        /* Hollow text effect for the header */
+        .text-stroke {
+            -webkit-text-stroke: 3px black;
+            color: transparent;
+        }
+    </style>
+    <title>Create User | UNLEASHED</title>
 </head>
-<body>
-    <div class="w-full h-full bg-zinc-900 p-10 text-white">
-        <div class="nav mb-10 flex justify-between items-center">
-            <a class="text-blue-500" href="/read">Read Users</a>
-            <a class="text-red-500 hover:text-red-400" href="/logout">Logout</a>
+<body class="dotted-bg text-black min-h-screen p-8 md:p-16 pt-24 antialiased selection:bg-pink-500 selection:text-white flex flex-col items-center overflow-x-hidden">
+
+    <!-- Decorative Top Marquee Banner -->
+    <div class="fixed top-0 left-0 w-full overflow-hidden bg-black text-yellow-300 py-2 z-50 border-b-4 border-black">
+        <div class="whitespace-nowrap animate-[marquee_15s_linear_infinite] font-bold tracking-[0.2em] uppercase text-xs flex gap-4">
+            <span>/// SYSTEM OVERRIDE /// NEW USER CREATION</span>
+            <span>/// UNAUTHORIZED ACCESS PROHIBITED</span>
+            <span>/// SYSTEM OVERRIDE /// NEW USER CREATION</span>
+            <span>/// UNAUTHORIZED ACCESS PROHIBITED ///</span>
         </div>
-        <h1 class="text-3xl tracking-tighter mb-5 ">Create User</h1>
-        <form action="/create" method="POST" >
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="text" name="name" placeholder="Enter your name">
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="email" name="email" placeholder="Enter your email">
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="text" name="image" placeholder="Enter image url">
-            <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="password" name="password" placeholder="Set user password" required>
-                <input class="px-5 py-2 bg-blue-500 rounded-lg ml-3" type="submit" value="Create User">
-        </form>
     </div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-5xl mx-auto">
+        
+        <!-- Navigation -->
+        <nav class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-8 border-black pb-8 mb-16 relative group">
+            <h1 class="text-7xl md:text-8xl font-black uppercase tracking-tighter leading-none relative z-10">
+                <span class="block text-stroke group-hover:text-black transition-colors duration-500">New</span>
+                <span class="bg-blue-600 text-white px-4 py-1 inline-block transform -rotate-3 group-hover:rotate-0 transition-transform duration-300 shadow-[8px_8px_0_0_#000]">Profile</span>
+            </h1>
+            
+            <div class="flex gap-6 font-bold uppercase tracking-widest text-sm mt-8 md:mt-0 bg-yellow-300 p-4 border-4 border-black shadow-[6px_6px_0_0_#000]">
+                <a href="/read" class="hover:text-blue-600 hover:-translate-y-1 transition-transform inline-block">Directory</a>
+                <a href="/logout" class="text-red-600 hover:text-black hover:-translate-y-1 transition-transform inline-block">Logout</a>
+            </div>
+        </nav>
+
+        <!-- Form Wrapper with Double Box Effect -->
+        <div class="relative w-full max-w-2xl mx-auto mt-10">
+            
+            <!-- Static Pink Backdrop -->
+            <div class="absolute inset-0 bg-pink-500 translate-x-4 translate-y-4 border-4 border-black hidden md:block"></div>
+            
+            <!-- Interactive Form Card -->
+            <div class="relative border-4 border-black p-8 md:p-12 bg-white transition-all hover:-translate-y-2 hover:-translate-x-2 duration-300 z-10 shadow-[12px_12px_0_0_#000] hover:shadow-[20px_20px_0_0_#000]">
+                
+                <!-- Floating Decorative Sticker -->
+                <div class="absolute -top-8 -right-8 bg-yellow-300 border-4 border-black w-20 h-20 rounded-full flex items-center justify-center font-black text-4xl shadow-[6px_6px_0_0_#000] animate-bounce z-20">
+                    !
+                </div>
+
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-12 inline-block bg-black text-white px-4 py-2 transform rotate-1">System User</h2>
+                
+                <form action="/create" method="POST" class="space-y-8">
+                    
+                    <!-- Input Group: Name -->
+                    <div class="group relative">
+                        <label class="absolute -top-3 left-4 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within:bg-blue-600 group-focus-within:text-white transition-colors">Full Name</label>
+                        <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[6px_6px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase placeholder-gray-300" type="text" name="name" placeholder="John Doe" required>
+                    </div>
+
+                    <!-- Input Group: Email -->
+                    <div class="group relative">
+                        <label class="absolute -top-3 left-4 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within:bg-blue-600 group-focus-within:text-white transition-colors">Email Address</label>
+                        <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[6px_6px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase placeholder-gray-300" type="email" name="email" placeholder="JOHN@SYSTEM.COM" required>
+                    </div>
+
+                    <!-- Input Group: Image -->
+                    <div class="group relative">
+                        <label class="absolute -top-3 left-4 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within:bg-blue-600 group-focus-within:text-white transition-colors">Image URL</label>
+                        <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[6px_6px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase placeholder-gray-300" type="text" name="image" placeholder="HTTPS://..." required>
+                    </div>
+
+                    <!-- Input Group: Password -->
+                    <div class="group relative">
+                        <label class="absolute -top-3 left-4 bg-white px-2 font-black uppercase text-xs tracking-widest z-10 border-2 border-black group-focus-within:bg-blue-600 group-focus-within:text-white transition-colors">Access Password</label>
+                        <input class="w-full border-4 border-black bg-gray-50 p-4 font-bold focus:outline-none focus:bg-yellow-100 focus:shadow-[6px_6px_0_0_#000] focus:-translate-y-1 focus:-translate-x-1 transition-all uppercase placeholder-gray-300" type="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button class="w-full bg-blue-600 text-white font-black text-xl md:text-2xl uppercase tracking-widest p-6 border-4 border-black shadow-[8px_8px_0_0_#000] hover:bg-pink-500 hover:shadow-[12px_12px_0_0_#000] hover:-translate-y-2 hover:-translate-x-2 active:translate-y-2 active:translate-x-2 active:shadow-none transition-all cursor-pointer mt-12 flex justify-between items-center group" type="submit">
+                        <span>Execute</span>
+                        <svg class="w-8 h-8 transform group-hover:translate-x-3 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="4" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tailwind Config for the Marquee Animation -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html>

@@ -3,23 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Edit Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+    <title>Edit Identity</title>
 </head>
-<body>
-    <div class="w-full h-full bg-zinc-900 p-10 text-white">
-        <div class="nav mb-10 flex justify-between items-center">
-            <a class="text-blue-500" href="/read">Read Users</a>
-            <a class="text-red-500 hover:text-red-400" href="/logout">Logout</a>
+<body class="bg-white text-black min-h-screen p-8 md:p-16 antialiased selection:bg-blue-600 selection:text-white">
+
+    <nav class="flex justify-between items-end border-b-4 border-black pb-6 mb-12">
+        <h1 class="text-5xl font-black uppercase tracking-tighter leading-none">Modify<br>Identity</h1>
+        <div class="flex gap-6 font-bold uppercase tracking-widest text-sm">
+            <a href="/read" class="hover:text-blue-600 hover:underline underline-offset-4">Directory</a>
+            <a href="/logout" class="text-red-600 hover:text-black hover:underline underline-offset-4">Logout</a>
         </div>
-        <h1 class="text-3xl tracking-tighter mb-5 ">Update User</h1>
-        <form action="/update/<%= users._id %>" method="POST" >
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="text" name="name" placeholder="Enter your name" value="<%= users.name %>">
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="email" name="email" placeholder="Enter your email" value="<%= users.email %>">
-                <input class=" px-5 py-2 bg-transparent border-2 border-zinc-800 rounded-lg" outline="none" type="text" name="image" placeholder="Enter image url" value="<%= users.image %>">
-                <input class="px-5 py-2 bg-yellow-500 text-black rounded-lg ml-3" type="submit" value="Update User">
+    </nav>
+
+    <div class="max-w-2xl border-4 border-black shadow-[12px_12px_0_0_#000] p-10 bg-white">
+        <h2 class="text-4xl font-black uppercase tracking-tighter mb-8 border-l-8 border-black pl-4">Update Profile</h2>
+        <form action="/update/<%= users._id %>" method="POST" class="space-y-6 flex flex-col">
+            <label class="font-black uppercase tracking-tight">Identity Name</label>
+            <input class="w-full border-b-4 border-black bg-transparent p-4 font-bold focus:outline-none focus:border-yellow-500 focus:bg-yellow-50" type="text" name="name" value="<%= users.name %>" required>
+            
+            <label class="font-black uppercase tracking-tight mt-4">Identity Email</label>
+            <input class="w-full border-b-4 border-black bg-transparent p-4 font-bold focus:outline-none focus:border-yellow-500 focus:bg-yellow-50" type="email" name="email" value="<%= users.email %>" required>
+            
+            <label class="font-black uppercase tracking-tight mt-4">Avatar URL</label>
+            <input class="w-full border-b-4 border-black bg-transparent p-4 font-bold focus:outline-none focus:border-yellow-500 focus:bg-yellow-50" type="text" name="image" value="<%= users.image %>" required>
+            
+            <button class="w-full bg-yellow-500 text-black font-black uppercase tracking-widest p-4 border-4 border-black hover:bg-black hover:text-white transition-colors cursor-pointer mt-8" type="submit">Deploy Changes</button>
         </form>
     </div>
+
 </body>
 </html>

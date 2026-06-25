@@ -3,160 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARGET LOCKED</title>
+    <title>TARGET ZERO: OPERATION BUSTED</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         body {
-            font-family: 'VT323', monospace;
-            background-color: #000;
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #050000;
             overflow: hidden;
             cursor: crosshair;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Stressful Strobe */
         @keyframes strobe {
-            0%, 49% { background-color: rgba(255, 0, 0, 0.2); }
-            50%, 100% { background-color: rgba(0, 0, 255, 0.2); }
+            0%, 49% { background-color: rgba(255, 0, 0, 0.15); }
+            50%, 100% { background-color: rgba(0, 50, 255, 0.1); }
         }
 
         .police-lights {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            animation: strobe 0.3s infinite;
+            inset: 0;
+            animation: strobe 0.4s infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* CRT Screen Effects */
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 6px, 6px 100%;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Crosshairs */
+        @keyframes spinSlow { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes spinFast { 100% { transform: translate(-50%, -50%) rotate(-360deg); } }
+        @keyframes pulseTarget {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            50% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; box-shadow: 0 0 80px #ff003c, inset 0 0 80px #ff003c; }
+        }
+
+        .crosshair-main {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 500px; height: 500px;
+            border: 2px solid rgba(255, 0, 60, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseTarget 1.5s infinite;
             pointer-events: none;
             z-index: 10;
         }
 
-        @keyframes spinTarget {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes pulseTarget {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-        }
-
-        .crosshair {
+        .crosshair-inner {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
-            border: 4px solid #ff003c;
+            top: 50%; left: 50%;
+            width: 350px; height: 350px;
+            border: 4px dashed #ff003c;
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulseTarget 1s infinite;
+            animation: spinSlow 8s linear infinite;
             pointer-events: none;
-            z-index: 20;
-            box-shadow: 0 0 50px #ff003c, inset 0 0 50px #ff003c;
+            z-index: 11;
         }
 
-        .crosshair::before, .crosshair::after {
-            content: '';
+        .crosshair-outer {
             position: absolute;
-            background: #ff003c;
-            box-shadow: 0 0 10px #ff003c;
-        }
-
-        .crosshair::before {
-            top: 50%; left: -20px; right: -20px; height: 2px;
-            transform: translateY(-50%);
-        }
-
-        .crosshair::after {
-            left: 50%; top: -20px; bottom: -20px; width: 2px;
-            transform: translateX(-50%);
-        }
-
-        .crosshair-spin {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300px;
-            height: 300px;
-            border: 2px dashed #ff003c;
+            top: 50%; left: 50%;
+            width: 600px; height: 600px;
+            border: 2px dotted #ff003c;
             border-radius: 50%;
-            animation: spinTarget 4s linear infinite;
+            animation: spinFast 12s linear infinite;
             pointer-events: none;
-            z-index: 21;
+            z-index: 9;
         }
 
+        .crosshair-main::before, .crosshair-main::after {
+            content: ''; position: absolute; background: #ff003c; box-shadow: 0 0 15px #ff003c;
+        }
+        .crosshair-main::before { top: 50%; left: -40px; right: -40px; height: 1px; transform: translateY(-50%); }
+        .crosshair-main::after { left: 50%; top: -40px; bottom: -40px; width: 1px; transform: translateX(-50%); }
+
+        /* The Laser */
         #laser-dot {
             position: absolute;
-            width: 12px;
-            height: 12px;
+            width: 16px; height: 16px;
             background-color: #fff;
             border-radius: 50%;
-            box-shadow: 0 0 20px 10px #ff003c;
+            box-shadow: 0 0 30px 15px #ff003c, inset 0 0 10px #fff;
             pointer-events: none;
-            z-index: 50;
-            transition: all 0.05s ease-out;
+            z-index: 60;
+            transition: transform 0.1s ease-out;
             transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
         }
 
-        .crt-overlay {
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 6px 100%;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none;
-            z-index: 30;
-        }
-
-        .terminal {
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid #ff003c;
-            box-shadow: 0 0 30px rgba(255, 0, 60, 0.5);
+        /* Text Glitch Effect */
+        .glitch-text {
             position: relative;
-            z-index: 40;
+            animation: textGlitch 3s infinite;
         }
+        @keyframes textGlitch {
+            0%, 96%, 100% { opacity: 1; transform: translate(0); filter: drop-shadow(0 0 10px red); }
+            97% { opacity: 0.8; transform: translate(-5px, 2px); filter: drop-shadow(-5px 0 0 blue); }
+            98% { opacity: 0.9; transform: translate(5px, -2px); filter: drop-shadow(5px 0 0 green); }
+            99% { opacity: 0.5; transform: translate(-2px, 5px); filter: drop-shadow(0 0 10px red); }
+        }
+
+        /* UI Panels */
+        .hud-panel {
+            background: rgba(10, 0, 0, 0.7);
+            border: 1px solid #ff003c;
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Screen Shake for the finale */
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            10% { transform: translate(-10px, -10px) rotate(-1deg); }
+            20% { transform: translate(10px, 10px) rotate(1deg); }
+            30% { transform: translate(-10px, 10px) rotate(-2deg); }
+            40% { transform: translate(10px, -10px) rotate(2deg); }
+            50% { transform: translate(-10px, 0) rotate(-1deg); }
+            60% { transform: translate(10px, 0) rotate(1deg); }
+            70% { transform: translate(0, -10px) rotate(0deg); }
+            80% { transform: translate(0, 10px) rotate(-1deg); }
+            90% { transform: translate(-5px, -5px) rotate(1deg); }
+        }
+        .shaking { animation: screenShake 0.4s infinite; }
     </style>
 </head>
-<body class="text-red-500 h-screen w-screen flex flex-col items-center justify-center p-4">
+<body id="body-container" class="text-red-500 flex flex-col items-center justify-center p-4">
 
+    <!-- FX Layers -->
     <div class="police-lights"></div>
     <div class="crt-overlay"></div>
-    
-    <div class="crosshair"></div>
-    <div class="crosshair-spin"></div>
-    
     <div id="laser-dot"></div>
 
-    <div class="absolute top-10 w-full text-center z-40 animate-pulse">
-        <h1 class="text-7xl font-bold text-red-600 tracking-widest uppercase drop-shadow-[0_0_20px_#ff003c]">
+    <!-- Crosshairs -->
+    <div class="crosshair-outer"></div>
+    <div class="crosshair-main"></div>
+    <div class="crosshair-inner"></div>
+
+    <!-- Top Threat Banner -->
+    <div class="absolute top-12 w-full text-center z-40">
+        <h1 class="text-6xl md:text-8xl font-black text-red-600 tracking-widest uppercase glitch-text">
             LETHAL FORCE AUTHORIZED
         </h1>
-        <p class="text-3xl text-yellow-400 mt-4 tracking-widest font-black bg-black/50 inline-block px-6 py-2 border border-yellow-500">
-            DO NOT MOVE. TARGET LOCKED.
-        </p>
+        <div class="mt-6 animate-pulse">
+            <span class="text-2xl md:text-4xl text-black bg-yellow-400 font-black px-8 py-3 tracking-[0.3em] border-4 border-yellow-600 shadow-[0_0_30px_#facc15]">
+                DO NOT BLINK. DO NOT BREATHE.
+            </span>
+        </div>
     </div>
 
-    <div class="terminal w-full max-w-4xl h-96 p-8 overflow-hidden flex flex-col justify-end mt-32">
-        <div id="terminal-content" class="text-3xl leading-relaxed font-bold tracking-wider"></div>
-        <span class="animate-ping text-4xl inline-block w-4 h-8 bg-red-500 mt-2"></span>
+    <!-- Left HUD Stats -->
+    <div class="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-6 z-30 opacity-80 hidden lg:flex">
+        <div class="hud-panel p-4 w-64 border-l-4 border-l-red-600">
+            <p class="text-xs text-red-400 mb-1">PHYSIOLOGICAL SCAN</p>
+            <p class="text-xl font-bold text-white">SWEAT GLANDS: <span class="text-yellow-400 blink">MAX</span></p>
+        </div>
+        <div class="hud-panel p-4 w-64 border-l-4 border-l-red-600">
+            <p class="text-xs text-red-400 mb-1">POSTURE ANALYSIS</p>
+            <p class="text-xl font-bold text-white text-yellow-400">LIKE A PRETZEL</p>
+        </div>
+        <div class="hud-panel p-4 w-64 border-l-4 border-l-red-600">
+            <p class="text-xs text-red-400 mb-1">ALIBI STATUS</p>
+            <p class="text-xl font-bold text-red-500 animate-pulse">NON-EXISTENT</p>
+        </div>
+    </div>
+
+    <!-- Right HUD Stats -->
+    <div class="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-6 z-30 opacity-80 hidden lg:flex text-right">
+        <div class="hud-panel p-4 w-64 border-r-4 border-r-red-600">
+            <p class="text-xs text-red-400 mb-1">LAWYER ON SPEED DIAL</p>
+            <p class="text-xl font-bold text-white">DECLINED CALL</p>
+        </div>
+        <div class="hud-panel p-4 w-64 border-r-4 border-r-red-600">
+            <p class="text-xs text-red-400 mb-1">INCOGNITO MODE</p>
+            <p class="text-xl font-bold text-red-500 animate-pulse">USELESS LOL</p>
+        </div>
+        <div class="hud-panel p-4 w-64 border-r-4 border-r-red-600 bg-red-900/40">
+            <p class="text-xs text-yellow-400 mb-1">EVASION PROBABILITY</p>
+            <p class="text-3xl font-black text-white">0.00%</p>
+        </div>
+    </div>
+
+    <!-- Terminal -->
+    <div class="hud-panel w-full max-w-4xl h-80 p-8 overflow-hidden flex flex-col justify-end z-40 mt-auto mb-12 absolute bottom-0">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50"></div>
+        <div id="terminal-content" class="text-2xl md:text-3xl leading-relaxed font-bold tracking-wider text-red-400 shadow-black drop-shadow-lg"></div>
+        <span class="animate-ping text-3xl inline-block w-4 h-8 bg-red-500 mt-2"></span>
     </div>
 
     <script>
+        // Laser tracking
         const laser = document.getElementById('laser-dot');
-        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let locked = false;
+
         document.addEventListener('mousemove', (e) => {
-            laser.style.left = e.clientX + 'px';
-            laser.style.top = e.clientY + 'px';
+            if (!locked) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                laser.style.left = mouseX + 'px';
+                laser.style.top = mouseY + 'px';
+            }
         });
 
+        // The hilarious threat script
         const commands = [
-            "> INITIATING TRACE PROTOCOL...",
-            "> IP ADDRESS PINPOINTED: 192.168.NO.HOPE",
-            "> BYPASSING FIREWALLS...",
-            "> ACCESSING WEBCAM...",
-            "> UPLOADING 'INCCOGNITO' BROWSER HISTORY TO ALL CONTACTS...",
-            "> SENDING DATA TO: MOM",
-            "> SENDING DATA TO: BOSS",
-            "> DEPLOYING CYBER-SWAT TEAM...",
-            "> ETA: 14 SECONDS",
-            "> PREPARE TO BE DELETED."
+            "> INITIATING CYBER-SNOOP PROTOCOL...",
+            "> TARGET ACQUIRED: IP ADDRESS 192.168.UR.COOKED",
+            "> BYPASSING 'NORTON ANTIVIRUS' (LMAO EASY)...",
+            "> SCANNING HARD DRIVE...",
+            "> WARNING: 47GB 'HOMEWORK' FOLDER DETECTED.",
+            "> DECRYPTING 'HOMEWORK'...",
+            "> ...",
+            "> ... MY GOD.",
+            "> REALLY, DUDE? REALLY?",
+            "> UPLOADING CONTENTS TO FAMILY WHATSAPP GROUP...",
+            "> AUTO-TAGGING: GRANDMA.",
+            "> ENDORSING YOU FOR 'WEIRD SEARCHES' ON LINKEDIN...",
+            "> DISPATCHING TACTICAL PIGEON SQUADRON...",
+            "> PRE-ORDERING APOLOGY FLOWERS WITH YOUR CREDIT CARD.",
+            "> ETA TO SOCIAL RUIN: 5 SECONDS.",
+            "> PREPARE TO EXPLAIN YOURSELF."
         ];
 
         const terminalContent = document.getElementById('terminal-content');
@@ -168,12 +248,17 @@
                 if (charIndex === 0) {
                     const p = document.createElement('p');
                     p.id = 'line-' + commandIndex;
-                    p.className = 'mb-2 opacity-0 transition-opacity duration-300';
+                    p.className = 'mb-2 opacity-0 transition-opacity duration-100';
+                    
+                    // Color code specific funny lines
+                    if (commands[commandIndex].includes("HOMEWORK")) p.classList.add("text-yellow-400");
+                    if (commands[commandIndex].includes("GRANDMA") || commands[commandIndex].includes("MY GOD")) p.classList.add("text-white", "font-black");
+                    
                     terminalContent.appendChild(p);
                     
                     setTimeout(() => {
                         document.getElementById('line-' + commandIndex).classList.remove('opacity-0');
-                    }, 50);
+                    }, 20);
                 }
 
                 const currentLine = document.getElementById('line-' + commandIndex);
@@ -181,26 +266,50 @@
                 if (charIndex < commands[commandIndex].length) {
                     currentLine.innerHTML += commands[commandIndex].charAt(charIndex);
                     charIndex++;
-                    const speed = Math.random() * 30 + 10;
+                    const speed = Math.random() * 20 + 10; // Faster typing
                     setTimeout(typeWriter, speed);
                 } else {
                     commandIndex++;
                     charIndex = 0;
                     terminalContent.scrollTop = terminalContent.scrollHeight;
-                    setTimeout(typeWriter, 600);
+                    // Pause between lines (longer pause for dramatic effect)
+                    let pause = 500;
+                    if (commandIndex === 6 || commandIndex === 8) pause = 1500; // Dramatic pause before "MY GOD"
+                    setTimeout(typeWriter, pause);
                 }
             } else {
-                setTimeout(() => {
-                    terminalContent.innerHTML += "<p class='text-6xl text-white bg-red-600 inline-block p-2 mt-4 blink'>SYSTEM LOCKDOWN ACTIVE</p>";
-                    document.body.style.cursor = 'none';
-                    laser.style.left = '50%';
-                    laser.style.top = '50%';
-                    laser.style.transform = 'translate(-50%, -50%) scale(10)';
-                }, 1000);
+                triggerFinale();
             }
         }
 
-        setTimeout(typeWriter, 1000);
+        function triggerFinale() {
+            setTimeout(() => {
+                // Final lockdown message
+                terminalContent.innerHTML += "<div class='mt-6 text-center'><p class='text-5xl md:text-7xl text-black bg-red-600 font-black inline-block px-6 py-4 animate-pulse'>SYSTEM LOCKDOWN ACTIVE</p></div>";
+                terminalContent.scrollTop = terminalContent.scrollHeight;
+                
+                // Freeze mouse and center laser
+                locked = true;
+                document.body.style.cursor = 'none';
+                laser.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                laser.style.left = '50%';
+                laser.style.top = '50%';
+                
+                // Giant laser explosion
+                setTimeout(() => {
+                    laser.style.transform = 'translate(-50%, -50%) scale(50)';
+                    laser.style.backgroundColor = '#ff003c';
+                    laser.style.boxShadow = '0 0 100px 50px #ff003c';
+                    
+                    // Shake the screen
+                    document.getElementById('body-container').classList.add('shaking');
+                }, 500);
+
+            }, 1000);
+        }
+
+        // Start the sequence
+        setTimeout(typeWriter, 1500);
     </script>
 </body>
 </html>

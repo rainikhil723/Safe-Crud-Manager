@@ -4,10 +4,9 @@ mongoose.connect('mongodb://127.0.0.1:27017/testapp1')
 
 const fileSchema = mongoose.Schema({
   originalName: String,
-  storedName: String,
-  path: String,
   mimetype: String,
   size: Number,
+  fileData: Buffer,
   uploadedAt: {
     type: Date,
     default: Date.now
@@ -23,4 +22,3 @@ const userSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('User', userSchema);
-  

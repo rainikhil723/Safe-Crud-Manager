@@ -1,8 +1,6 @@
-
 const express = require('express');
 const app = express();
 const path = require('path');
-const fs = require('fs');
 const multer = require('multer');
 const userModel = require('./models/user');
 const cookieParser = require('cookie-parser');
@@ -13,21 +11,8 @@ const authModel = require('./models/auth');
 const APP_AUTH_SECRET = 'your_secret_key';
 const USER_ACCESS_SECRET = 'user_profile_access_secret';
 
-const uploadDir = path.join(__dirname, 'public', 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const safeName = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
-    cb(null, safeName);
-  }
-});
-
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
 
 function isLoggedIn(req, res, next) {
   if (!req.cookies.token) return res.redirect('/login');
@@ -86,7 +71,6 @@ app.get('/login', (req, res) => {
   res.render('login');
 });
 
-
 app.post('/register', async (req, res) => {
   const { email, password } = req.body;
   
@@ -114,14 +98,14 @@ app.get('/hacker-busted', (req, res) => {
   res.render('hacker-busted');
 });
 
-app.get('/', isLoggedIn, (req,res) => {
+app.get('/', (req,res) => {
     res.render('index');
-})
+});
 
 app.get('/read', isLoggedIn, async(req,res) => {
     let users = await userModel.find();
     res.render('read',{users});
-})
+});
 
 app.post('/user/:id/open', isLoggedIn, async (req, res) => {
   const { password } = req.body;
@@ -177,10 +161,9 @@ app.post('/user/:id/upload', isLoggedIn, verifyUserAccess, upload.single('userFi
       $push: {
         files: {
           originalName: req.file.originalname,
-          storedName: req.file.filename,
-          path: `/uploads/${req.file.filename}`,
           mimetype: req.file.mimetype,
           size: req.file.size,
+          fileData: req.file.buffer,
           uploadedAt: new Date()
         }
       }
@@ -200,6 +183,45 @@ app.get('/user/:id/files', isLoggedIn, verifyUserAccess, async (req, res) => {
   res.render('user-files', { user, userAccessToken: req.userAccessToken });
 });
 
+app.get('/user/:userId/file/:fileId', isLoggedIn, verifyUserAccess, async (req, res) => {
+  if (req.userAccess.userId !== req.params.userId) return res.redirect('/read');
+
+  const user = await userModel.findById(req.params.userId);
+  if (!user) return res.status(404).send('User not found');
+
+  const file = user.files.id(req.params.fileId);
+  if (!file) return res.status(404).send('File not found');
+
+  res.set({
+    'Content-Type': file.mimetype,
+    'Content-Disposition': `inline; filename="${file.originalName}"`
+  });
+  res.send(file.fileData);
+});
+
+app.post('/user/:userId/file/:fileId/delete', isLoggedIn, verifyUserAccess, async (req, res) => {
+  if (req.userAccess.userId !== req.params.userId) return res.redirect('/read');
+
+  await userModel.findByIdAndUpdate(
+    req.params.userId,
+    {
+      $pull: { files: { _id: req.params.fileId } }
+    }
+  );
+
+  res.redirect(`/user/${req.params.userId}/files?userAccessToken=${encodeURIComponent(req.userAccessToken)}`);
+});
+
+app.post('/delete/:id', isLoggedIn, async (req, res) => {
+  await userModel.findByIdAndDelete(req.params.id);
+  res.redirect('/read');
+});
+
+app.get('/edit/:id', isLoggedIn, async (req, res) => {
+  let user = await userModel.findById(req.params.id);
+  if (!user) return res.redirect('/read');
+  res.render('edit', { users: user });
+});
 
 app.post('/create', isLoggedIn, async (req,res) => {
   let {image,email,name,password} = req.body;
@@ -207,13 +229,13 @@ app.post('/create', isLoggedIn, async (req,res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  let Createduser = await userModel.create({
+  await userModel.create({
         name,
         email,
     image,
     password: hashedPassword
     });
    res.redirect('/read');
-})
+});
 
 app.listen(4000);
